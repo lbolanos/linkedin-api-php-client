@@ -72,8 +72,8 @@ class Method extends AbstractEnum
      */
     public static function isMethodSupported($method)
     {
-        if (!in_array($method, [Method::GET, Method::POST, Method::DELETE])) {
+        /*if (!in_array($method, [Method::GET, Method::POST, Method::DELETE])) {
             throw new \InvalidArgumentException('The method is not correct');
-        }
+        }*/
     }
 }
