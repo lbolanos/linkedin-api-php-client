@@ -109,6 +109,8 @@ class Client
      */
     protected $useTokenParam = false;
 
+    protected $httpHandler = null;
+
     /**
      * @return bool
      */
@@ -284,7 +286,8 @@ class Client
                     'Content-Type' => 'application/json',
                     'x-li-format' => 'json',
                     'Connection' => 'Keep-Alive'
-                ]
+                ],
+                'handler' => $this->httpHandler
             ]);
             try {
                 $response = $guzzle->post($uri, ['form_params' => [
@@ -431,6 +434,22 @@ class Client
     }
 
     /**
+     * @return null
+     */
+    public function getHttpHandler()
+    {
+        return $this->httpHandler;
+    }
+
+    /**
+     * @param null $httpHandler
+     */
+    public function setHttpHandler($httpHandler): void
+    {
+        $this->httpHandler = $httpHandler;
+    }
+
+    /**
      * Retrieve URL which will be used to send User to LinkedIn
      * for authentication
      *
@@ -531,6 +550,7 @@ class Client
         $guzzle = new GuzzleClient([
             'base_uri' => $this->getApiRoot(),
             'headers' => $headers,
+            'handler' => $this->httpHandler
         ]);
         if (!empty($params) && Method::GET === $method) {
             $endpoint .= '?' . build_query($params);
@@ -598,7 +618,8 @@ class Client
             $headers['Authorization'] = 'Bearer ' . $this->accessToken->getToken();
         }
         $guzzle = new GuzzleClient([
-            'base_uri' => $this->getApiRoot()
+            'base_uri' => $this->getApiRoot(),
+            'handler' => $this->httpHandler
         ]);
         $fileinfo = pathinfo($path);
         $filename = preg_replace('/\W+/', '_', $fileinfo['filename']);
