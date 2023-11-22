@@ -320,7 +320,8 @@ class Client
                 'Content-Type' => 'application/json',
                 'x-li-format' => 'json',
                 'Connection' => 'Keep-Alive'
-            ]
+            ],
+            'handler' => $this->httpHandler
         ]);
 
         try {
